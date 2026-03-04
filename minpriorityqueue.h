@@ -58,45 +58,26 @@ class MinPriorityQueue {
                 return;
             }
 
-            // first step, replace root with last element and pop
             swap(H[0], H[H.size() - 1]);
             H.pop_back();
 
             int i = 0;
 
-            if (H.size() % 2 == 0) {
-                while (((H.size() - 1) - i) > 1) {
-                    while (H[parent(i)].second > H[left_child(i)].second || H[parent(i)].second > H[right_child(i)].second) {
-                        if (H[left_child(i)].second < H[right_child(i)].second) {
-                            swap(H[parent(i)], H[left_child(i)]);
-                            i = left_child(i);
-                        }
-                        else {
-                            swap(H[parent(i)], H[right_child(i)]);
-                            i = right_child(i);
-                        }
-                        if (i >= H.size() / 2) { break; }
-                    }
-                }
-                if (H[parent(i)].second > H[left_child(i)].second) {
+            while (right_child(i) < H.size() - 1 && H[parent(i)].second > H[left_child(i)].second || H[parent(i)].second > H[right_child(i)].second) {
+                if (H[left_child(i)].second < H[right_child(i)].second) {
                     swap(H[parent(i)], H[left_child(i)]);
+                    i = left_child(i);
                 }
-            }
-            else {
-                while (H[parent(i)].second > H[left_child(i)].second || H[parent(i)].second > H[right_child(i)].second) {
-                    if (H[left_child(i)].second < H[right_child(i)].second) {
-                        swap(H[parent(i)], H[left_child(i)]);
-                        i = left_child(i);
-                    }
-                    else {
-                        swap(H[parent(i)], H[right_child(i)]);
-                        i = right_child(i);
-                    }
-                    if (i >= H.size() / 2) { break; }
+                else {
+                    swap(H[parent(i)], H[right_child(i)]);
+                    i = right_child(i);
                 }
+                if (i >= H.size() / 2) { break; }
             }
-
-
+            if (left_child(i) < H.size() - 1 && H[left_child(i)].second < H[parent(i)].second) {
+                swap(H[parent(i)], H[left_child(i)]);
+            }
+            
         }
         T front() {
             return H[0].first;
