@@ -1,0 +1,46 @@
+void pop() {
+
+            if (H.size() == 1) {
+                H.pop_back();
+                return;
+            }
+
+            // swap root and end, delete root
+            swap(H[0], H[H.size() - 1]);      
+            H.pop_back();      
+            int i = 0;
+            
+            // if H.size() is even, tree after pop_back will be odd
+            // odd trees always have both children
+            if (H.size() % 2 != 0) {
+                while (H[parent(i)].second > H[left_child(i)].second || H[parent(i)].second > H[right_child(i)].second) {
+                    if (H[left_child(i)].second < H[right_child(i)].second) {
+                        swap(H[parent(i)], H[left_child(i)]);
+                        i = left_child(i);
+                    }
+                    else {
+                        swap(H[parent(i)], H[right_child(i)]);
+                        i = right_child(i);
+                    }
+                }
+            }
+            else {      // if H.size() is odd, tree after pop_back() will be even. // even trees have odd number of children
+                while ((H.size() - 1) - i > 1) {
+                    // while (H[parent(i)].second > H[left_child(i)].second || H[parent(i)].second > H[right_child(i)].second) {
+                    //     if (H[left_child(i)].second < H[right_child(i)].second) {
+                    //         swap(H[parent(i)], H[left_child(i)]);
+                    //         i = left_child(i);
+                    //     }
+                    //     else {
+                    //         swap(H[parent(i)], H[right_child(i)]);
+                    //         i = right_child(i);
+                    //     }
+                    //     if ((H.size() - 2) - i <= 1) { break; }
+                    // }
+                    cout << "hi" << endl;
+                }
+                if (H[parent(i)].second > H[left_child(i)].second) {
+                    swap(H[parent(i)], H[left_child(i)]);
+                }
+            }
+        }
