@@ -47,38 +47,32 @@ class MinPriorityQueue {
         }
 
         void pop() {
-            // if vec = {}
-            if (H.size() == 0) {
-                return;
-            }
+            if (H.empty()) { return; }
 
-            // if vec = {x}
-            if (H.size() == 1) {
-                H.pop_back();
-                return;
-            }
-
-            swap(H[0], H[H.size() - 1]);
+            H[0] = H.back();
             H.pop_back();
 
-            int i = 0;
+            if (H.empty()) { return; }
 
-            while (right_child(i) < H.size() - 1 && H[parent(i)].second > H[left_child(i)].second || H[parent(i)].second > H[right_child(i)].second) {
-                if (H[left_child(i)].second < H[right_child(i)].second) {
-                    swap(H[parent(i)], H[left_child(i)]);
-                    i = left_child(i);
+            int i = 0;
+            while (left_child(i) < H.size()) {
+                int smallest = left_child(i);
+                int right = right_child(i);
+
+                if (right < H.size() && H[right].second < H[smallest].second) {
+                    smallest = right;
+                }
+
+                if (H[smallest].second < H[i].second) {
+                    swap(H[i], H[smallest]);
+                    i = smallest;
                 }
                 else {
-                    swap(H[parent(i)], H[right_child(i)]);
-                    i = right_child(i);
+                    break;
                 }
-                if (i >= H.size() / 2) { break; }
             }
-            if (left_child(i) < H.size() - 1 && H[left_child(i)].second < H[parent(i)].second) {
-                swap(H[parent(i)], H[left_child(i)]);
-            }
-            
         }
+
         T front() {
             return H[0].first;
         }
